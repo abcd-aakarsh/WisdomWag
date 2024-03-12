@@ -1,16 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import Header from "./components/Header";
-import Course from "./components/Course";
-import Footer from "./components/Footer";
-import "../index.css";
-import About from "./components/About";
-import Home from "./components/Home";
-import Community from "./components/Community";
-import CoursePage from "./components/CoursePage";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-
-const App = () => {
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+const CoursePage = () => {
+  const [addCart, setAddCart] = useState("Add to Cart");
+  let { id } = useParams();
+  id = id - 1;
   const Courses = [
     {
       id: 1,
@@ -1057,39 +1050,100 @@ const App = () => {
   ];
   return (
     <>
-      <Header />
-      <Outlet />
-      <Footer />
+      <section className="course-box">
+        <div className="course-page">
+          <div className="course-page-grid">
+            <div className="course-page-text-box">
+              <h1 className="heading-primary ">{Courses[id].title}</h1>
+              <p className="course-page-desc">{Courses[id].description}</p>
+              <p className="course-page-desc">
+                {`${Courses[id].rating} (${Courses[id].students}+ Students)`}
+              </p>
+              <p className="course-page-desc">
+                Instructor - {Courses[id].author}
+              </p>
+            </div>
+            <div className="course-page-img-box">
+              <img src={Courses[id].image_url} className="course-page-img" />
+              <button
+                className="btn cart-btn"
+                onClick={() => {
+                  {
+                    addCart === "Add to Cart"
+                      ? setAddCart("Added to Cart")
+                      : setAddCart("Add to Cart");
+                  }
+                }}
+              >
+                {addCart}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="course-box-2">
+        <div className="course-page">
+          <div className="course-page-grid-2 ">
+            <div className="course-learn">
+              <div className="course-learn-text">
+                <h2 className="heading-tertiary ">What you'll learn</h2>
+                <ul className="learn-list">
+                  {Courses[id].what_you_will_learn.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="course-learn-text">
+              <h2 className="heading-tertiary ">Skills you will gain</h2>
+              <ul className="learn-list skills-list">
+                {Courses[id].skills_you_will_gain.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="course-learn-text">
+              <h2 className="heading-tertiary ">Prerequisite</h2>
+              <p className="mod-desc">{Courses[id].requirements}</p>
+            </div>
+          </div>
+
+          <div className="course-page-module">
+            <div className="course-page-module-box">
+              <h2 className="heading-secondary">Modules</h2>
+              <div className="course-module-grid">
+                {Courses[id].modules.map((module) => (
+                  <div className="mod-box course-page-title">
+                    <h3 className="mod-title ">{module.title}</h3>
+                    <p className="mod-desc">{module.description}</p>
+                    <p className="mod-desc">
+                      Duration - <strong>{module.duration}</strong>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="course-page-review">
+            <div className="course-page-module-box">
+              <h2 className="heading-secondary"> Featured Reviews</h2>
+              <div className="course-review-grid">
+                {Courses[id].reviews.map((review) => (
+                  <div className="mod-box course-page-rev">
+                    <h3 className="mod-title ">{review.user}</h3>
+                    <p className="mod-desc">{review.rating}</p>
+                    <p className="mod-desc">
+                      <q>{review.comment}</q>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 };
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "/course",
-        element: <Course />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/community",
-        element: <Community />,
-      },
-      {
-        path: "/course/:id",
-        element: <CoursePage />,
-      },
-    ],
-  },
-]);
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={appRouter} />);
+
+export default CoursePage;
