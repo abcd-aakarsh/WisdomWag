@@ -10,7 +10,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb+srv://wisdomwagdev:wisdomwagonitis@cluster0.ccx4wfq.mongodb.net/wisdom-wagon")
+mongoose.connect("mongodb+srv://wisdomwagdev:password@cluster0.ccx4wfq.mongodb.net/wisdom-wagon")
 
 const Users = mongoose.model('Users', {
     name:{

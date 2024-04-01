@@ -6,14 +6,12 @@ import remove_icon from './assets/cart_cross_icon.png';
 export const CartItems = () => {
   const { Courses, cartItems, removeFromCart } = useContext(ShopContext);
 
-  // Calculate total price directly during rendering
   const totalPrice = Object.values(cartItems).reduce(
     (acc, quantity) => {
       if (quantity > 0) {
-        // Find the corresponding course and get its price directly
         const coursePrice = Courses.find(course => course.id === quantity)
           ?.price_inr;
-        return acc + (coursePrice || 0); // Handle potential missing courses
+        return acc + (coursePrice || 0); 
       }
       return acc;
     },
