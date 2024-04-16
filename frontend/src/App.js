@@ -10,8 +10,9 @@ import Community from "./components/Community";
 import CoursePage from "./components/CoursePage";
 import Cart from "./components/Cart";
 import LoginSignup from "./components/LoginSignup";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ShopContextProvider from "./components/ShopContext";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
+import ContextProvider from "./components/ShopContext";
+import PlayCourse from "./components/PlayCourse";
 
 const App = () => {
 
@@ -55,10 +56,18 @@ const appRouter = createBrowserRouter([
       {
         path: "/login",
         element: <LoginSignup />,
+      },
+      {
+        path:"/redirect",
+        element:<Navigate to="/login" />
+      },
+      {
+        path:"/playcourse",
+        element:<PlayCourse />
       }
     ],
   },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<ShopContextProvider><RouterProvider router={appRouter} /></ShopContextProvider>);
+root.render(<ContextProvider><RouterProvider router={appRouter} /></ContextProvider>);
 

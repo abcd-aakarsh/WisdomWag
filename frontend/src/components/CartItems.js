@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { ShopContext } from './ShopContext';
+import { CartContext } from './ShopContext';
 import './CartItems.css';
 import remove_icon from './assets/cart_cross_icon.png';
 
 export const CartItems = () => {
-  const { Courses, cartItems, removeFromCart } = useContext(ShopContext);
+  const { Courses, cartItems, removeFromCart } = useContext(CartContext);
 
   const totalPrice = Object.values(cartItems).reduce(
     (acc, quantity) => {

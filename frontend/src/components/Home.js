@@ -14,7 +14,7 @@ const Home = () => {
               <span className="hero-ww">WisdomWagon</span>
             </h1>
             <p>
-              Take your overnight coding into the world of endless possiblities.
+              Take your overnight coding into the world of endless possibilities.
             </p>
             <button
               href="https://roadmap.sh/"

@@ -1,12 +1,87 @@
-import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useParams, Navigate } from "react-router-dom";
 import { Courses } from './assets/data.js';
-import { ShopContext } from "./ShopContext.js";
+import { CartContext } from "./ShopContext.js";
 const CoursePage = () => {
   const [addCart, setAddCart] = useState("Add to Cart");
-  const {addToCart} = useContext(ShopContext);
+  const { addToCart } = useContext(CartContext);
   let { id } = useParams();
   id -= 1;
+  const amount = Courses[id].price_inr*100;
+  const currency = "INR";
+  const receiptId = "a1b2c3";
+
+  const [authenticated, setauthenticated] = useState(null);
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('auth-token');
+    if (loggedInUser) {
+      setauthenticated(loggedInUser);
+    }
+  }, []);
+
+  const orderHandler = (e)=>{
+    console.log("yes");
+    if (!authenticated) {
+      console.log("no");
+      return <Navigate to="/login"/>;
+    } else {
+      console.log("yes");
+      paymentHandler(e);
+    }
+  };
+  
+  const paymentHandler = async (e) => {
+    const response = await fetch("http://localhost:3000/order",{
+      method:"POST",
+      body: JSON.stringify({
+        amount,
+        currency,
+        receipt: receiptId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const order = await response.json();
+    console.log(order);
+
+    let options = {
+      "key": "rzp_test_daYrLgN3l5bAHt",
+      amount,
+      currency,
+      "name": "Wisdom Wagon",
+      "description": "Test Transaction",
+      "image": "/frontend/src/components/assets/logo.jpg",
+      "order_id": order.id,
+      "handler": function (response){
+        window.location.replace("/playcourse");
+      },
+      "prefill": { 
+          "name": "Gaurav Kumar", 
+          "email": "gaurav.kumar@example.com", 
+          "contact": "9000090000"
+      },
+      "notes": {
+          "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+          "color": "#3399cc"
+      }
+  };
+  const rzp1 = new window.Razorpay(options);
+  rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+    });
+
+    rzp1.open();
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -31,13 +106,14 @@ const CoursePage = () => {
                   {
                     addToCart(id)
                     addCart === "Add to Cart"
-                      ? setAddCart("Added to Cart")
+                      ? setAddCart("Added")
                       : setAddCart("Add to Cart");
                   }
                 }}
               >
                 {addCart}
               </button>
+              <button className="btn cart-btn" onClick={orderHandler}>Buy Now</button>
             </div>
           </div>
         </div>
