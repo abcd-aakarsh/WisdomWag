@@ -13,10 +13,10 @@ const ContextProvider = (props) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
 
   const addToCart = (itemId) => {
-      if (!cartItems.hasOwnProperty(itemId) || cartItems[itemId] === 0) {
+      if (!cartItems.hasOwnProperty(itemId) || cartItems[itemId+1] === 0) {
         setCartItems((prevCart) => ({
           ...prevCart,
-          [itemId]: 1,
+          [itemId+1]: 1,
         }));
       }
     };
@@ -31,20 +31,6 @@ const ContextProvider = (props) => {
     };
 
 
-    // const getCartTotal = () => {
-    //   return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    // };
-
-    // useEffect(() => {
-    //   localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    // }, [cartItems]);
-  
-    // useEffect(() => {
-    //   const cartItems = localStorage.getItem("cartItems");
-    //   if (cartItems) {
-    //     setCartItems(JSON.parse(cartItems));
-    //   }
-    // }, []);
 
     const contextValue = {Courses, cartItems, addToCart, removeFromCart}
 

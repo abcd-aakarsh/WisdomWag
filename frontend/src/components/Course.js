@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "./Card";
 import { Link } from "react-router-dom";
 import "../../index.css";
-import { Courses } from './assets/data.js';
 
 const Course = () => {
-  const [filteredList, setFilteredList] = useState(Courses);
+  const [courses, setCourses] = useState([]);
+  const [filteredList, setFilteredList] = useState(courses);
+  const getCourses = async() => {
+    const response = await fetch ('http://localhost:3000/allcourses');
+    const data = await response.json()
+    setCourses(data);
+    setFilteredList(data);
+  }
+  useEffect(()=>{
+    getCourses()
+  },[])
+
   const [searchText, setSearchText] = useState("");
   return (
     <>
@@ -17,7 +27,7 @@ const Course = () => {
             <li>
               <button
                 onClick={() => {
-                  const filteredList = Courses;
+                  const filteredList = courses;
                   setFilteredList(filteredList);
                 }}
               >
@@ -27,7 +37,7 @@ const Course = () => {
             <li>
               <button
                 onClick={() => {
-                  const filteredList = Courses.filter(
+                  const filteredList = courses.filter(
                     (course) => course.category === "Programming"
                   );
                   setFilteredList(filteredList);
@@ -39,7 +49,7 @@ const Course = () => {
             <li>
               <button
                 onClick={() => {
-                  const filteredList = Courses.filter(
+                  const filteredList = courses.filter(
                     (course) => course.category === "Web Development"
                   );
                   setFilteredList(filteredList);
@@ -51,7 +61,7 @@ const Course = () => {
             <li>
               <button
                 onClick={() => {
-                  const filteredList = Courses.filter(
+                  const filteredList = courses.filter(
                     (course) => course.category === "Data Science"
                   );
                   setFilteredList(filteredList);
@@ -63,7 +73,7 @@ const Course = () => {
             <li>
               <button
                 onClick={() => {
-                  const filteredList = Courses.filter(
+                  const filteredList = courses.filter(
                     (course) => course.category === "Cybersecurity"
                   );
                   setFilteredList(filteredList);
@@ -75,7 +85,7 @@ const Course = () => {
             <li>
               <input
                 type="text"
-                placeholder="Search course"
+                placeholder="Search Course"
                 className="search-box"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
@@ -83,7 +93,7 @@ const Course = () => {
               <button
                 className="search-btn"
                 onClick={() => {
-                  const filteredList = Courses.filter((course) =>
+                  const filteredList = courses.filter((course) =>
                     course.title
                       .toLowerCase()
                       .includes(searchText.toLowerCase())

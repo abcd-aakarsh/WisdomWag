@@ -9,7 +9,7 @@ export const CartItems = () => {
   const totalPrice = Object.values(cartItems).reduce(
     (acc, quantity) => {
       if (quantity > 0) {
-        const coursePrice = Courses.find(course => course.id === quantity)
+        const coursePrice = Courses.find(course => course.id+1 === quantity)
           ?.price_inr;
         return acc + (coursePrice || 0); 
       }

@@ -10,7 +10,7 @@ import Community from "./components/Community";
 import CoursePage from "./components/CoursePage";
 import Cart from "./components/Cart";
 import LoginSignup from "./components/LoginSignup";
-import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ContextProvider from "./components/ShopContext";
 import PlayCourse from "./components/PlayCourse";
 
@@ -56,10 +56,6 @@ const appRouter = createBrowserRouter([
       {
         path: "/login",
         element: <LoginSignup />,
-      },
-      {
-        path:"/redirect",
-        element:<Navigate to="/login" />
       },
       {
         path:"/playcourse",

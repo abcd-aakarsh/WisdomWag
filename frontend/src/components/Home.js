@@ -229,7 +229,7 @@ const Home = () => {
             </div>
           </div>
           <div class="course-btn">
-            <a href="./courses.html" class="btn ">
+            <a href="./course" class="btn ">
               View all Courses&#8674;
             </a>
           </div>
